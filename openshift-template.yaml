@@ -1,7 +1,12 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: daytrader-template
+  annotations:
+    description: Application template for Daytrader
+    iconClass: icon-jboss
+    tags: javaee,java
+    version: 1.0.0
+  name: daytrader
   labels:
     app: daytrader
 objects:
@@ -242,15 +247,15 @@ objects:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/lib/mysql/data
-            name: web-mysql-pvol
+            name: mysql-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 60
         volumes:
-        - name: web-mysql-pvol
-          persistentVolumeClaim:
-            claimName: web-mysql-claim
+        - name: mysql-data
+          emptyDir:
+          -medium: ""
     test: false
     triggers:
     - imageChangeParams:
@@ -265,16 +270,6 @@ objects:
     - type: ConfigChange
   status: {}
 
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: web-mysql-claim
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
 - apiVersion: v1
   kind: Service
   metadata:
@@ -369,6 +364,7 @@ parameters:
 - description: Maven mirror url. If nexus is deployed locally, use nexus url (e.g. http://nexus.ci:8081/content/groups/public/)
   displayName: Maven mirror url
   name: MAVEN_MIRROR_URL
+  value: "http://nexus-cicd.cloudapps.demo.ocplab.com/content/repositories/central/"
 - description: HornetQ cluster admin password
   from: '[a-zA-Z0-9]{8}'
   generate: expression
@@ -382,7 +378,7 @@ parameters:
 - description: Git source URI for application
   name: SOURCE_REPOSITORY_URL
   required: true
-  value: https://github.com/jamesfalkner/jboss-daytrader
+  value: https://github.com/gnunn1/jboss-daytrader
 - description: Git branch/tag reference
   name: SOURCE_REPOSITORY_REF
   value: "master"
