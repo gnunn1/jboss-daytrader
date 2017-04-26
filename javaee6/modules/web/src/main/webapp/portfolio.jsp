@@ -30,7 +30,7 @@
   <TBODY>
     <TR>
             <TD bgcolor="#c93333" align="left" width="640" height="10" colspan=5><B><FONT
-                color="#ffffff">DayTrader Portfolio</FONT></B></TD>
+                color="#ffffff">DayTrader Portfolio (<%=request.getSession().getId()%>)</FONT></B></TD>
             <TD align="center" bgcolor="#000000" width="100" height="10"><FONT
                 color="#ffffff"><B><%= System.getProperty("jboss.server.name") %></B></FONT></TD>
         </TR>
