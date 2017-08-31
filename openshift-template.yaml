@@ -1,7 +1,11 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: daytrader-template
+  annotations:
+    description: DayTrader Legacy JEE Application
+    iconClass: icon-jboss
+    tags: eap,javaee,java,jboss
+  name: daytrader
   labels:
     app: daytrader
 objects:
