@@ -246,15 +246,15 @@ objects:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/lib/mysql/data
-            name: web-mysql-pvol
+            name: mysql-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 60
         volumes:
-        - name: web-mysql-pvol
-          persistentVolumeClaim:
-            claimName: web-mysql-claim
+        - name: mysql-data
+          emptyDir:
+          -medium: ""        
     test: false
     triggers:
     - imageChangeParams:
@@ -269,16 +269,6 @@ objects:
     - type: ConfigChange
   status: {}
 
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: web-mysql-claim
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
 - apiVersion: v1
   kind: Service
   metadata:
